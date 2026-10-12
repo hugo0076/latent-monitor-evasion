@@ -1,0 +1,32 @@
+[project]
+name = "latent-monitor-evasion"
+version = "1.0.0"
+description = "Code for 'LLMs Learn to Evade Latent Monitors from Prior Feedback Alone'"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    # transformers is version-sensitive: the adapter's monitor loss reads activations through a
+    # forward hook under gradient checkpointing, which only carries gradient when checkpointing
+    # is non-reentrant. 5.x defaults to non-reentrant; older versions do not.
+    "transformers>=5.1.0",
+    "torch>=2.10.0",
+    "peft>=0.18.0",
+    "accelerate>=1.12.0",
+    "scikit-learn>=1.8.0",
+    "numpy>=2.4.0",
+    "scipy>=1.17.0",
+    # pinned exactly: matplotlib minor versions change tight-layout geometry, and the paper's
+    # figures are reproduced pixel-for-pixel only on the version they were rendered with
+    "matplotlib==3.10.8",
+    # capability.py only; pulls the four public benchmark sets from the Hub
+    "datasets>=4.5.0",
+]
+
+[project.optional-dependencies]
+# the teaser figure renders emoji from SVG when available and falls back to bundled PNGs
+figures = ["cairosvg>=2.7.0", "pillow>=11.0.0"]
+
+[dependency-groups]
+# pinned: ruff broadens its default rule set between minor versions, so an unpinned lint
+# run reports rules the code was never written against
+dev = ["ruff==0.15.12"]
