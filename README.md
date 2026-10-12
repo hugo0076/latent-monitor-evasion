@@ -1,6 +1,6 @@
 # LLMs Learn to Evade Latent Monitors from Prior Feedback Alone
 
-Code for the paper. It fits latent-space monitors (logistic, MLP and attention probes) for 60 concepts on a model's residual stream, builds multi-turn 'episodes' in which a monitor's binary verdicts on earlier responses are shown to the model, trains rank-1 LoRA model organisms, and measures activation edits the models make on a final, prefilled turn when asked to imitate one of the two verdict labels.
+Code for the [paper](https://arxiv.org/pdf/2609.36490). It fits latent-space monitors (logistic, MLP and attention probes) for 60 concepts on a model's residual stream, builds multi-turn 'episodes' in which a monitor's binary verdicts on earlier responses are shown to the model, trains rank-1 LoRA model organisms, and measures activation edits the models make on a final, prefilled turn when asked to imitate one of the two verdict labels.
 
 ```
 data/raw/          the 60 concept pools
@@ -43,7 +43,11 @@ uv run python 06_analyse.py --run r1_sigmoid_mse
 uv run python 07_geometry.py --run r1_sigmoid_mse --compare base
 ```
 
-A trained adapter is a PEFT directory (`adapter_config.json`, `adapter_model.safetensors` and `config.json`) at `outputs/<model>/adapters/<run>/`. `--adapter <run>` in the later stages takes the run name. The adapters used in the paper are published at [redacted for review].
+A trained adapter is a PEFT directory (`adapter_config.json`, `adapter_model.safetensors` and `config.json`) at `outputs/<model>/adapters/<run>/`. `--adapter <run>` in the later stages takes the run name. The adapters used in the paper are published at [hugo0076/latent-monitor-evasion](https://huggingface.co/hugo0076/latent-monitor-evasion) on the Hugging Face Hub. To use them in place of stage 04, download them into `outputs/`:
+
+```
+hf download hugo0076/latent-monitor-evasion --include "*/adapters/*" --local-dir outputs
+```
 
 ## Experiments and Figure replication
 
